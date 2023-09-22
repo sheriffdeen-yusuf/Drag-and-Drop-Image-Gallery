@@ -1,6 +1,9 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { signOut } from "firebase/auth";
+import { auth } from "@/pages/api/firebase";
+import { useRouter } from "next/router";
 
 const imageTags = {
   1: "fashion",
@@ -18,13 +21,16 @@ const imageTags = {
 };
 
 function Index() {
-  // const { data: session } = useSession();
-  // const router = useRouter();
+  const router = useRouter();
 
-  // if (!session) {
-  //   router.push("/");
-  //   alert("please sigin to access Draggize");
-  // }
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Call the Firebase signOut function
+      router.push("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
@@ -62,7 +68,12 @@ function Index() {
         {/* ... Rest of your code ... */}
         <header className="z-30 bg-stone-100 p-4 w-full fixed top-0 left-0 flex justify-around">
           <h1>Draggize</h1>
-          <h1>Contact us</h1>
+          <button
+            onClick={handleLogout}
+            className="px-4 py-1 rounded-full bg-red-500 hover:bg-red-600"
+          >
+            Logout
+          </button>
         </header>
         <div
           className="relative h-[20rem] bg-cover bg-center"
@@ -77,7 +88,7 @@ function Index() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-[250px] md:w-[600px] bg-slate-200 rounded-full px-4 py-2.5 focus:outline-none focus:ring focus:ring-amber-600 focus:ring-offset-4 "
             />
-            <div className="flex flex-row mt-4 justify-center gap-2">
+            {/* <div className="flex flex-row mt-4 justify-center gap-2">
               <div className="px-1 md:px-6 py-1 rounded-md bg-green-200 text-green-500">
                 fashion
               </div>
@@ -90,7 +101,7 @@ function Index() {
               <div className="px-1 md:px-6 py-1 rounded-md bg-sky-200 text-sky-500">
                 cars
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 

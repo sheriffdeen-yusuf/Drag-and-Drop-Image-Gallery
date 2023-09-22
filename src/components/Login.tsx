@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 
 function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("user@example.com");
+  const [password, setPassword] = useState("1Password");
   const [buttonLoader, setButtonLoader] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -43,12 +43,14 @@ function Login() {
       <form onSubmit={handleSubmit} className="space-y-2">
         <input
           type="text"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="email"
           className="px-3 py-4 w-full rounded-md focus:outline-none border border-stone-400 placeholder:text-stone-600 focus:border-stone-700 "
         />
         <input
           type="password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="password"
           className="px-3 py-4  w-full rounded-md focus:outline-none border border-stone-400 placeholder:text-stone-600 focus:border-stone-700 "
